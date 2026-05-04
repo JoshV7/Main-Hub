@@ -4,17 +4,37 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Van Der Merwe</title>
+
+<!-- Favicons -->
 <link rel="icon" type="image/x-icon" href="/favicon.ico">
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
 <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
 <link rel="manifest" href="/site.webmanifest">
 <meta name="theme-color" content="#181f1c">
+
+<!-- OG Meta Tags -->
+<meta property="og:title" content="Van Der Merwe">
+<meta property="og:description" content="Personal hub — projects spanning medicine, law, finance and engineering.">
+<meta property="og:url" content="https://vandermerwe.org.uk">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://vandermerwe.org.uk/android-chrome-512x512.png">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Van Der Merwe">
+<meta name="twitter:description" content="Personal hub — projects spanning medicine, law, finance and engineering.">
+
+<!-- Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=DM+Serif+Display&display=swap" rel="stylesheet">
+
+<!-- Turnstile -->
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
+
+/* ── THEME VARIABLES ── */
 :root{
   --bg:#181f1c;
   --nav:#181f1c;
@@ -23,39 +43,72 @@
   --surface-hover:#243020;
   --surface-border:#334d3e;
   --shadow:0 2px 12px rgba(0,0,0,.45);
-  --shadow-hover:0 8px 28px rgba(76,175,125,.1);
-  --text:#d8ece2;
-  --muted:#6b9478;
-  --dim:#3a5044;
+  --shadow-hover:0 8px 28px rgba(76,175,125,.12);
+  --text:#e8f5ee;
+  --muted:#8ab89e;
+  --dim:#4a6b58;
   --accent:#4caf7d;
   --accent-bg:rgba(76,175,125,.12);
   --accent-border:rgba(76,175,125,.3);
   --auth-bg:rgba(76,175,125,.07);
   --auth-border:rgba(76,175,125,.2);
   --dev-bg:rgba(216,236,226,.05);
-  --dev-text:#4d7060;
+  --dev-text:#6b9478;
   --dev-border:#2e3d34;
-  --footer:#3a5a48;
+  --footer:#4a6b58;
+  --toggle-bg:#2e3d34;
+  --toggle-knob:#4caf7d;
 }
-html,body{min-height:100vh;background:var(--bg);color:var(--text);font-family:'DM Mono',monospace;-webkit-font-smoothing:antialiased}
+[data-theme="light"]{
+  --bg:#eef4f0;
+  --nav:#f8fbf9;
+  --border:#b8d4c4;
+  --surface:#f8fbf9;
+  --surface-hover:#eef6f1;
+  --surface-border:#b8d4c4;
+  --shadow:0 2px 12px rgba(0,0,0,.07);
+  --shadow-hover:0 8px 28px rgba(46,125,82,.1);
+  --text:#162018;
+  --muted:#3a5a48;
+  --dim:#7a9e8a;
+  --accent:#2a7048;
+  --accent-bg:rgba(42,112,72,.08);
+  --accent-border:rgba(42,112,72,.22);
+  --auth-bg:rgba(42,112,72,.06);
+  --auth-border:rgba(42,112,72,.16);
+  --dev-bg:rgba(22,32,24,.04);
+  --dev-text:#3a5a48;
+  --dev-border:#b8d4c4;
+  --footer:#3a5a48;
+  --toggle-bg:#b8d4c4;
+  --toggle-knob:#2a7048;
+}
+
+html,body{min-height:100vh;background:var(--bg);color:var(--text);font-family:'DM Mono',monospace;-webkit-font-smoothing:antialiased;transition:background .3s,color .3s}
 
 /* ── LAYOUT ── */
-.site{min-height:100vh;display:flex;flex-direction:column;max-width:900px;margin:0 auto}
+.site{min-height:100vh;display:flex;flex-direction:column;max-width:1100px;margin:0 auto}
 
 /* ── TOP NAV ── */
 .topnav{
-  padding:20px 36px;
+  padding:20px 48px;
   display:flex;align-items:center;justify-content:space-between;
   border-bottom:0.5px solid var(--border);
   background:var(--nav);
-  box-shadow:0 1px 0 var(--border),0 4px 20px rgba(0,0,0,.3);
-  position:sticky;top:0;z-index:10;
+  box-shadow:0 1px 0 var(--border),0 4px 20px rgba(0,0,0,.15);
+  position:sticky;top:0;z-index:100;
+  transition:background .3s,border-color .3s,box-shadow .3s;
 }
-.wordmark{font-family:'DM Serif Display',Georgia,serif;font-size:24px;color:var(--text);letter-spacing:-0.3px;opacity:0;transform:translateY(-8px)}
-.wordmark span{color:var(--accent)}
+.wordmark{font-family:'DM Serif Display',Georgia,serif;font-size:26px;color:var(--text);letter-spacing:-0.3px;opacity:0;transform:translateY(-8px);transition:color .3s;display:flex;flex-direction:column;line-height:1.1}
+.wordmark-first{font-size:12px;letter-spacing:2px;color:var(--muted);font-family:'DM Mono',monospace;font-weight:400;opacity:0.6;text-transform:uppercase;margin-bottom:2px;white-space:nowrap}
+.wordmark-name{white-space:nowrap;color:var(--text)}
+.wordmark-name span{color:var(--accent)}
 .wordmark.go{animation:slideDown .5s cubic-bezier(.22,1,.36,1) forwards}
-.nav-links{display:flex;gap:24px}
-.nl{font-size:9px;letter-spacing:2.5px;text-transform:uppercase;color:var(--muted);cursor:pointer;padding-bottom:3px;border-bottom:1px solid transparent;transition:color .2s,border-color .2s;opacity:0}
+
+/* desktop nav */
+.nav-right{display:flex;align-items:center;gap:32px}
+.nav-links{display:flex;gap:28px;align-items:center}
+.nl{font-size:9px;letter-spacing:2.5px;text-transform:uppercase;color:var(--muted);cursor:pointer;padding-bottom:3px;border-bottom:1px solid transparent;transition:color .2s,border-color .2s;opacity:0;white-space:nowrap;line-height:22px}
 .nl:hover{color:var(--text)}
 .nl.active{color:var(--accent);border-bottom-color:var(--accent)}
 .nl.go{animation:fadeIn .4s ease forwards}
@@ -64,25 +117,66 @@ html,body{min-height:100vh;background:var(--bg);color:var(--text);font-family:'D
 .nl.go:nth-child(3){animation-delay:.26s}
 .nl.go:nth-child(4){animation-delay:.33s}
 
+/* toggle */
+.theme-toggle{
+  width:40px;height:22px;border-radius:11px;
+  background:var(--toggle-bg);
+  border:0.5px solid var(--border);
+  cursor:pointer;position:relative;
+  transition:background .3s,border-color .3s;
+  flex-shrink:0;opacity:0;
+  display:inline-flex;align-self:center;
+}
+.theme-toggle.go{animation:fadeIn .4s ease .4s forwards}
+.theme-toggle::after{
+  content:'';position:absolute;
+  width:16px;height:16px;border-radius:50%;
+  background:var(--toggle-knob);
+  top:2px;left:2px;
+  transition:transform .3s,background .3s;
+}
+[data-theme="light"] .theme-toggle::after{transform:translateX(18px)}
 
+/* hamburger */
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px;opacity:0}
+.hamburger.go{animation:fadeIn .4s ease .4s forwards}
+.hamburger span{display:block;width:22px;height:1.5px;background:var(--muted);transition:transform .3s,opacity .3s,background .3s}
+.hamburger.open span:nth-child(1){transform:translateY(6.5px) rotate(45deg)}
+.hamburger.open span:nth-child(2){opacity:0}
+.hamburger.open span:nth-child(3){transform:translateY(-6.5px) rotate(-45deg)}
+
+/* mobile menu */
+.mobile-menu{
+  display:none;position:fixed;
+  top:0;left:0;right:0;bottom:0;
+  background:var(--nav);
+  z-index:99;
+  flex-direction:column;align-items:center;justify-content:center;gap:32px;
+  opacity:0;transition:opacity .25s;
+}
+.mobile-menu.open{opacity:1}
+.mobile-nl{font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--muted);cursor:pointer;padding-bottom:4px;border-bottom:1px solid transparent;transition:color .2s,border-color .2s}
+.mobile-nl:hover,.mobile-nl.active{color:var(--accent);border-bottom-color:var(--accent)}
+.mobile-toggle-row{display:flex;align-items:center;gap:12px;margin-top:16px}
+.mobile-toggle-label{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--muted)}
 
 /* ── CONTENT ── */
-.content{padding:36px;flex:1}
+.content{padding:48px;flex:1}
 .tabpanel{display:none;opacity:0}
 .tabpanel.active{display:block}
 .tabpanel.go{animation:fadeUp .4s ease forwards}
 
 /* ── HOME ── */
-.section-label{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--dim);margin-bottom:18px;opacity:0}
+.section-label{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--dim);margin-bottom:10px;opacity:0;padding-left:2px}
 .section-label.go{animation:fadeIn .4s ease .38s forwards}
-.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
 .card{
-  border-radius:11px;padding:20px 18px;
+  border-radius:12px;padding:28px 24px;
   border:0.5px solid var(--surface-border);
   background:var(--surface);
   box-shadow:var(--shadow);
-  position:relative;min-height:128px;
-  display:flex;flex-direction:column;gap:5px;
+  position:relative;min-height:160px;
+  display:flex;flex-direction:column;gap:6px;
   text-decoration:none;
   opacity:0;transform:translateY(20px);
   transition:transform .22s cubic-bezier(.22,1,.36,1),box-shadow .22s,border-color .2s,background .2s;
@@ -95,28 +189,26 @@ html,body{min-height:100vh;background:var(--bg);color:var(--text);font-family:'D
 .card.dim{cursor:pointer;opacity:0}
 .card.dim.go{animation:cardUp .55s cubic-bezier(.22,1,.36,1) .62s forwards}
 .card-cat{font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--accent)}
-.card-title{font-family:'DM Serif Display',Georgia,serif;font-size:18px;color:var(--text);letter-spacing:-0.2px}
-.card-desc{font-size:10px;line-height:1.7;color:var(--muted);margin-top:2px}
-.badges{display:flex;gap:5px;position:absolute;top:14px;right:14px}
+.card-title{font-family:'DM Serif Display',Georgia,serif;font-size:22px;color:var(--text);letter-spacing:-0.2px;margin-top:2px}
+.card-desc{font-size:11px;line-height:1.7;color:var(--muted);margin-top:4px;flex:1}
+.card-footer{display:flex;align-items:center;justify-content:space-between;margin-top:12px}
+.card-updated{font-size:9px;letter-spacing:1px;color:var(--dim)}
+.badges{display:flex;gap:5px}
 .badge{font-size:7px;letter-spacing:.5px;padding:2px 7px;border-radius:10px;text-transform:uppercase}
 .b-live{background:var(--accent-bg);color:var(--accent);border:0.5px solid var(--accent-border)}
 .b-dev{background:var(--dev-bg);color:var(--dev-text);border:0.5px solid var(--dev-border)}
 .b-auth{background:var(--auth-bg);color:var(--accent);border:0.5px solid var(--auth-border)}
-.arrow{position:absolute;bottom:14px;right:14px;font-size:14px;color:var(--accent);opacity:0;transition:opacity .18s,transform .18s}
+.arrow{font-size:16px;color:var(--accent);opacity:0;transition:opacity .18s,transform .18s}
 .card:hover .arrow{opacity:1;transform:translate(2px,-2px)}
 
 /* ── ABOUT ── */
-.tab-heading{
-  font-size:10px;letter-spacing:2px;text-transform:uppercase;
-  color:var(--muted);margin-bottom:20px;padding-bottom:14px;
-  border-bottom:0.5px solid var(--border);
-}
+.tab-heading{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:20px;padding-bottom:14px;border-bottom:0.5px solid var(--border)}
 
 /* ── SOCIALS ── */
-.social-list{display:flex;flex-direction:column;gap:8px;max-width:400px}
+.social-list{display:flex;flex-direction:column;gap:10px;max-width:480px}
 .social-row{
   display:flex;align-items:center;justify-content:space-between;
-  padding:14px 18px;border-radius:9px;
+  padding:16px 20px;border-radius:10px;
   border:0.5px solid var(--surface-border);
   background:var(--surface);
   box-shadow:var(--shadow);
@@ -126,63 +218,48 @@ html,body{min-height:100vh;background:var(--bg);color:var(--text);font-family:'D
 }
 .social-row:hover{border-color:var(--accent);background:var(--surface-hover);box-shadow:var(--shadow-hover)}
 .social-platform{font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--accent)}
-.social-handle{font-size:11px;color:var(--muted)}
-.social-arrow{font-size:12px;color:var(--dim);transition:color .2s,transform .2s}
+.social-handle{font-size:12px;color:var(--muted)}
+.social-arrow{font-size:13px;color:var(--dim);transition:color .2s,transform .2s}
 .social-row:hover .social-arrow{color:var(--accent);transform:translate(2px,-2px)}
 
 /* ── CONTACT FORM ── */
-.contact-intro{font-size:11px;line-height:1.9;color:var(--muted);margin-bottom:24px;max-width:440px}
-.cform{display:flex;flex-direction:column;gap:14px;max-width:480px}
-.field-label{font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:6px}
-.field-input, .field-textarea{
-  width:100%;
-  background:var(--surface);
+.contact-intro{font-size:12px;line-height:1.9;color:var(--muted);margin-bottom:28px;max-width:480px}
+.cform{display:flex;flex-direction:column;gap:16px;max-width:520px}
+.field-label{font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:8px}
+.field-input,.field-textarea{
+  width:100%;background:var(--surface);
   border:0.5px solid var(--surface-border);
-  border-radius:8px;
-  padding:12px 14px;
-  font-family:'DM Mono',monospace;
-  font-size:11px;
-  color:var(--text);
-  outline:none;
-  transition:border-color .2s,box-shadow .2s;
+  border-radius:8px;padding:13px 16px;
+  font-family:'DM Mono',monospace;font-size:12px;
+  color:var(--text);outline:none;
+  transition:border-color .2s,box-shadow .2s,background .3s,color .3s;
   box-shadow:var(--shadow);
 }
-.field-input:focus, .field-textarea:focus{
-  border-color:var(--accent);
-  box-shadow:0 0 0 3px rgba(76,175,125,.1);
-}
-.field-input::placeholder, .field-textarea::placeholder{color:var(--dim)}
-.field-textarea{resize:vertical;min-height:120px;line-height:1.7}
+.field-input:focus,.field-textarea:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-bg)}
+.field-input::placeholder,.field-textarea::placeholder{color:var(--dim)}
+.field-textarea{resize:vertical;min-height:130px;line-height:1.7}
 .submit-btn{
-  align-self:flex-start;
-  padding:12px 24px;
-  border-radius:8px;
-  border:0.5px solid var(--accent-border);
-  background:var(--accent-bg);
-  color:var(--accent);
-  font-family:'DM Mono',monospace;
-  font-size:10px;letter-spacing:1.5px;text-transform:uppercase;
-  cursor:pointer;
-  transition:background .2s,border-color .2s,box-shadow .2s,transform .15s;
+  align-self:flex-start;padding:13px 28px;
+  border-radius:8px;border:0.5px solid var(--accent-border);
+  background:var(--accent-bg);color:var(--accent);
+  font-family:'DM Mono',monospace;font-size:10px;
+  letter-spacing:1.5px;text-transform:uppercase;
+  cursor:pointer;transition:background .2s,border-color .2s,box-shadow .2s,transform .15s,opacity .2s;
 }
-.submit-btn:hover{background:rgba(76,175,125,.2);border-color:var(--accent);box-shadow:0 4px 16px rgba(76,175,125,.15);transform:translateY(-1px)}
+.submit-btn:not([disabled]):hover{background:var(--accent-bg);border-color:var(--accent);box-shadow:var(--shadow-hover);transform:translateY(-1px)}
 .submit-btn:active{transform:translateY(0)}
 .form-success{
-  display:none;
-  padding:14px 18px;border-radius:9px;
+  display:none;padding:16px 20px;border-radius:10px;
   border:0.5px solid var(--accent-border);
-  background:var(--accent-bg);
-  color:var(--accent);
-  font-size:11px;line-height:1.7;
+  background:var(--accent-bg);color:var(--accent);
+  font-size:12px;line-height:1.8;max-width:520px;
 }
 
 /* ── FOOTER ── */
 .footer{
-  padding:18px 36px;
-  font-size:9px;letter-spacing:2px;text-align:center;
-  border-top:0.5px solid var(--border);
-  color:var(--footer);
-  opacity:0;
+  padding:20px 48px;font-size:9px;letter-spacing:2px;
+  text-align:center;border-top:0.5px solid var(--border);
+  color:var(--footer);opacity:0;transition:color .3s,border-color .3s;
 }
 .footer.go{animation:fadeIn .5s ease .72s forwards}
 
@@ -191,32 +268,51 @@ html,body{min-height:100vh;background:var(--bg);color:var(--text);font-family:'D
 @keyframes fadeIn{from{opacity:0}to{opacity:1}}
 @keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
 @keyframes cardUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
-@keyframes cardDim{from{opacity:0;transform:translateY(20px)}to{opacity:.28;transform:translateY(0)}}
 
 /* ── RESPONSIVE ── */
-@media(max-width:640px){
-  .topnav,.pagetabs,.content,.footer{padding-left:20px;padding-right:20px}
-  .grid{grid-template-columns:1fr}
-  .wordmark{font-size:20px}
-  .nav-links{gap:14px}
+@media(max-width:768px){
+  .topnav,.content,.footer{padding-left:24px;padding-right:24px}
+  .nav-links,.theme-toggle{display:none}
+  .hamburger{display:flex}
+  .grid{grid-template-columns:1fr;gap:12px}
+  .wordmark{font-size:22px}
+}
+@media(min-width:769px){
+  .mobile-menu{display:none!important}
 }
 </style>
-<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 </head>
 <body>
 <div class="site">
 
   <!-- TOP NAV -->
   <nav class="topnav">
-    <div class="wordmark" id="wm">Van Der <span>Merwe</span></div>
-    <div class="nav-links" id="nls">
-      <span class="nl active" onclick="switchTab(0)">Home</span>
-      <span class="nl" onclick="switchTab(1)">About</span>
-      <span class="nl" onclick="switchTab(2)">Socials</span>
-      <span class="nl" onclick="switchTab(3)">Contact</span>
+    <div class="wordmark" id="wm"><span class="wordmark-first">Joshua</span><span class="wordmark-name">Van Der <span>Merwe</span></span></div>
+    <div class="nav-right">
+      <div class="nav-links" id="nls">
+        <span class="nl active" onclick="switchTab(0)">Home</span>
+        <span class="nl" onclick="switchTab(1)">About</span>
+        <span class="nl" onclick="switchTab(2)">Socials</span>
+        <span class="nl" onclick="switchTab(3)">Contact</span>
+        <button class="theme-toggle go" id="themeToggle" onclick="toggleTheme()" aria-label="Toggle theme"></button>
+      </div>
+    </div>
+    <div class="hamburger go" id="hamburger" onclick="toggleMenu()">
+      <span></span><span></span><span></span>
     </div>
   </nav>
 
+  <!-- MOBILE MENU -->
+  <div class="mobile-menu" id="mobileMenu">
+    <span class="mobile-nl active" onclick="switchTab(0);toggleMenu()">Home</span>
+    <span class="mobile-nl" onclick="switchTab(1);toggleMenu()">About</span>
+    <span class="mobile-nl" onclick="switchTab(2);toggleMenu()">Socials</span>
+    <span class="mobile-nl" onclick="switchTab(3);toggleMenu()">Contact</span>
+    <div class="mobile-toggle-row">
+      <span class="mobile-toggle-label">Theme</span>
+      <button class="theme-toggle" style="opacity:1" onclick="toggleTheme()" aria-label="Toggle theme"></button>
+    </div>
+  </div>
 
   <!-- CONTENT -->
   <div class="content">
@@ -226,27 +322,36 @@ html,body{min-height:100vh;background:var(--bg);color:var(--text);font-family:'D
       <div class="section-label" id="sec-label">Projects</div>
       <div class="grid">
 
-        <a class="card" href="/gym">
+        <a class="card" href="https://gymtracking.co.uk">
           <div class="card-cat">Fitness</div>
-          <div class="badges"><span class="badge b-live">Live</span></div>
           <div class="card-title">Gym Tracker</div>
           <div class="card-desc">Workout logging and progress tracking over time.</div>
+          <div class="card-footer">
+            <div class="badges"><span class="badge b-live">Live</span></div>
+            <div class="card-updated">04/2026</div>
+          </div>
           <div class="arrow">↗</div>
         </a>
 
         <a class="card" href="/study">
           <div class="card-cat">Medicine</div>
-          <div class="badges"><span class="badge b-live">Live</span><span class="badge b-auth">⬡ Auth</span></div>
           <div class="card-title">Study App</div>
           <div class="card-desc">MBChB Year 1 mock tests and anatomy revision.</div>
+          <div class="card-footer">
+            <div class="badges"><span class="badge b-live">Live</span><span class="badge b-auth">⬡ Auth</span></div>
+            <div class="card-updated">05/2026</div>
+          </div>
           <div class="arrow">↗</div>
         </a>
 
         <a class="card dim" href="/cars">
           <div class="card-cat">Motoring</div>
-          <div class="badges"><span class="badge b-live">Live</span><span class="badge b-auth">⬡ Auth</span></div>
           <div class="card-title">Cars</div>
           <div class="card-desc">Used car finder and evaluation tool.</div>
+          <div class="card-footer">
+            <div class="badges"><span class="badge b-live">Live</span><span class="badge b-auth">⬡ Auth</span></div>
+            <div class="card-updated">05/2026</div>
+          </div>
           <div class="arrow">↗</div>
         </a>
 
@@ -292,20 +397,20 @@ html,body{min-height:100vh;background:var(--bg);color:var(--text);font-family:'D
       <form class="cform" id="contactForm" action="https://api.web3forms.com/submit" method="POST">
         <div>
           <label class="field-label" for="name">Name</label>
-          <input class="field-input" id="name" type="text" name="name" placeholder="Your name" required>
+          <input class="field-input" id="name" type="text" name="name" placeholder="Your name" required autocomplete="off">
         </div>
         <div>
           <label class="field-label" for="email">Email</label>
-          <input class="field-input" id="email" type="email" name="email" placeholder="your@email.com" required>
+          <input class="field-input" id="email" type="email" name="email" placeholder="your@email.com" required autocomplete="off">
         </div>
         <div>
           <label class="field-label" for="message">Message</label>
-          <textarea class="field-textarea" id="message" name="message" placeholder="What's on your mind?" required></textarea>
+          <textarea class="field-textarea" id="message" name="message" placeholder="What's on your mind?" required autocomplete="off"></textarea>
         </div>
         <input type="hidden" name="access_key" value="49e453dc-a179-4fbd-8aa9-2c3b995b44bf">
         <input type="hidden" name="subject" value="New message from vandermerwe.org.uk">
         <input type="checkbox" name="botcheck" style="display:none">
-        <div class="cf-turnstile" data-sitekey="0x4AAAAAADIr_YESzSdLKLNC" data-theme="dark" data-callback="onTurnstileSuccess" data-expired-callback="onTurnstileExpired"></div>
+        <div class="cf-turnstile" data-sitekey="0x4AAAAAADIr_YESzSdLKLNC" data-theme="auto" data-callback="onTurnstileSuccess" data-expired-callback="onTurnstileExpired"></div>
         <button class="submit-btn" type="submit" id="submitBtn" disabled style="opacity:.4;cursor:not-allowed">Complete verification ↗</button>
       </form>
       <div class="form-success" id="formSuccess">
@@ -316,99 +421,123 @@ html,body{min-height:100vh;background:var(--bg);color:var(--text);font-family:'D
 
   </div>
 
-  <div class="footer" id="ft">© 2026 Van Der Merwe</div>
+  <div class="footer" id="ft">© 2026 Joshua Van Der Merwe</div>
 </div>
 
 <script>
-function onTurnstileSuccess(){
-  const btn = document.getElementById('submitBtn');
-  btn.disabled = false;
-  btn.style.opacity = '1';
-  btn.style.cursor = 'pointer';
-  btn.textContent = 'Send message ↗';
-}
-function onTurnstileExpired(){
-  const btn = document.getElementById('submitBtn');
-  btn.disabled = true;
-  btn.style.opacity = '.4';
-  btn.style.cursor = 'not-allowed';
-  btn.textContent = 'Complete verification ↗';
-}
+// ── POSITIONING HELPER ──
+console.log('%c Van Der Merwe — Positioning Guide ', 'background:#1e2a25;color:#4caf7d;font-size:13px;padding:4px 8px;border-radius:4px');
+console.log('%c Projects label ', 'color:#4caf7d;font-weight:bold', '→ change margin-bottom on .section-label (currently 10px) and padding-left (currently 2px)');
+console.log('%c Dark/light toggle ', 'color:#4caf7d;font-weight:bold', '→ change gap on .nav-links (currently 28px between items) or add margin-left to .theme-toggle');
+console.log('%c Tell Claude: ', 'color:#8ab89e', '"move Projects X px left/right/up/down" or "move toggle X px left/right"');
 
 
+function getSystemTheme(){ return window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark' }
+function applyTheme(t){ document.documentElement.setAttribute('data-theme', t); localStorage.setItem('vdm-theme', t) }
+
+const savedTheme = localStorage.getItem('vdm-theme') || getSystemTheme();
+applyTheme(savedTheme);
+
+function toggleTheme(){
+  const current = document.documentElement.getAttribute('data-theme');
+  applyTheme(current === 'dark' ? 'light' : 'dark');
+}
+
+window.matchMedia('(prefers-color-scheme: light)').addEventListener('change', e => {
+  if(!localStorage.getItem('vdm-theme')) applyTheme(e.matches ? 'light' : 'dark');
+});
+
+// ── MOBILE MENU ──
+function toggleMenu(){
+  const menu = document.getElementById('mobileMenu');
+  const burger = document.getElementById('hamburger');
+  const isOpen = menu.classList.contains('open');
+  if(isOpen){
+    menu.style.opacity='0';
+    setTimeout(()=>{ menu.style.display='none'; menu.classList.remove('open') }, 250);
+  } else {
+    menu.style.display='flex';
+    void menu.offsetWidth;
+    menu.classList.add('open');
+    burger.classList.add('open');
+  }
+  burger.classList.toggle('open', !isOpen);
+}
+
+// ── TABS ──
+const tabIds = ['home','about','socials','contact'];
 
 function switchTab(i){
   tabIds.forEach((id,j)=>{
     const panel = document.getElementById('tab-'+id);
     const nl = document.querySelectorAll('.nl')[j];
+    const mnl = document.querySelectorAll('.mobile-nl')[j];
     const isActive = i===j;
-    panel.classList.toggle('active',isActive);
+    panel.classList.toggle('active', isActive);
     panel.classList.remove('go');
-    if(isActive){void panel.offsetWidth;panel.classList.add('go')}
-    nl.classList.toggle('active',isActive);
+    if(isActive){ void panel.offsetWidth; panel.classList.add('go') }
+    nl.classList.toggle('active', isActive);
+    mnl.classList.toggle('active', isActive);
   });
   if(i===0) animateCards();
 }
 
+// ── ANIMATIONS ──
 function animateCards(){
   const cards = document.querySelectorAll('.card');
   const sl = document.getElementById('sec-label');
-  [sl,...cards].forEach(el=>{el.classList.remove('go');void el.offsetWidth;el.classList.add('go')});
+  [sl,...cards].forEach(el=>{ el.classList.remove('go'); void el.offsetWidth; el.classList.add('go') });
 }
 
 function animateIn(){
   const wm = document.getElementById('wm');
   const nls = document.querySelectorAll('.nl');
   const ft = document.getElementById('ft');
-  [wm,...nls,ft].forEach(el=>{el.classList.remove('go');void el.offsetWidth});
-  setTimeout(()=>wm.classList.add('go'),10);
-  nls.forEach(el=>setTimeout(()=>el.classList.add('go'),10));
-  setTimeout(()=>ft.classList.add('go'),10);
+  [wm,...nls,ft].forEach(el=>{ el.classList.remove('go'); void el.offsetWidth });
+  setTimeout(()=>wm.classList.add('go'), 10);
+  nls.forEach(el=>setTimeout(()=>el.classList.add('go'), 10));
+  setTimeout(()=>ft.classList.add('go'), 10);
   document.getElementById('tab-home').classList.add('go');
   animateCards();
 }
 
-// Contact form submission
+// ── TURNSTILE ──
+function onTurnstileSuccess(){
+  const btn = document.getElementById('submitBtn');
+  btn.disabled=false; btn.style.opacity='1'; btn.style.cursor='pointer'; btn.textContent='Send message ↗';
+}
+function onTurnstileExpired(){
+  const btn = document.getElementById('submitBtn');
+  btn.disabled=true; btn.style.opacity='.4'; btn.style.cursor='not-allowed'; btn.textContent='Complete verification ↗';
+}
+
+// ── CONTACT FORM ──
 document.getElementById('contactForm').addEventListener('submit', async function(e){
   e.preventDefault();
   const btn = this.querySelector('.submit-btn');
-  btn.textContent = 'Sending...';
-  btn.disabled = true;
+  btn.textContent='Sending...'; btn.disabled=true;
   try{
     const data = Object.fromEntries(new FormData(this));
     const res = await fetch(this.action,{method:'POST',body:JSON.stringify(data),headers:{'Content-Type':'application/json','Accept':'application/json'}});
     const json = await res.json();
-    console.log('Web3Forms response:', json);
     if(json.success){
       const form = this;
       const success = document.getElementById('formSuccess');
       const countdown = document.getElementById('formCountdown');
-      form.style.display='none';
-      success.style.display='block';
-      let secs = 10;
-      const interval = setInterval(()=>{
-        secs--;
-        countdown.textContent = 'Form resets in ' + secs + 's';
-        if(secs<=0) clearInterval(interval);
-      }, 1000);
+      form.style.display='none'; success.style.display='block';
+      let secs=10;
+      const interval = setInterval(()=>{ secs--; countdown.textContent='Form resets in '+secs+'s'; if(secs<=0) clearInterval(interval) }, 1000);
       setTimeout(()=>{
-        success.style.display='none';
-        form.reset();
-        form.style.display='flex';
-        btn.textContent='Complete verification ↗';
-        btn.disabled=true;
-        btn.style.opacity='.4';
-        btn.style.cursor='not-allowed';
-        if(typeof turnstile !== 'undefined') turnstile.reset();
+        success.style.display='none'; form.reset(); form.style.display='flex';
+        btn.textContent='Complete verification ↗'; btn.disabled=true; btn.style.opacity='.4'; btn.style.cursor='not-allowed';
         countdown.textContent='Form resets in 10s';
+        if(typeof turnstile!=='undefined') turnstile.reset();
       }, 10000);
     } else {
-      btn.textContent = 'Error — try again';
-      btn.disabled = false;
+      btn.textContent='Error — try again'; btn.disabled=false; btn.style.opacity='1'; btn.style.cursor='pointer';
     }
   } catch(err){
-    btn.textContent = 'Error — try again';
-    btn.disabled = false;
+    btn.textContent='Error — try again'; btn.disabled=false; btn.style.opacity='1'; btn.style.cursor='pointer';
   }
 });
 
