@@ -302,8 +302,9 @@ html,body{min-height:100vh;background:var(--bg);color:var(--text);font-family:'D
         </div>
         <input type="hidden" name="access_key" value="49e453dc-a179-4fbd-8aa9-2c3b995b44bf">
         <input type="hidden" name="subject" value="New message from vandermerwe.org.uk">
-        <div class="cf-turnstile" data-sitekey="0x4AAAAAADIr_YESzSdLKLNC" data-theme="dark"></div>
-        <button class="submit-btn" type="submit">Send message ↗</button>
+        <input type="checkbox" name="botcheck" style="display:none">
+        <div class="cf-turnstile" data-sitekey="0x4AAAAAADIr_YESzSdLKLNC" data-theme="dark" data-callback="onTurnstileSuccess" data-expired-callback="onTurnstileExpired"></div>
+        <button class="submit-btn" type="submit" id="submitBtn" disabled style="opacity:.4;cursor:not-allowed">Complete verification ↗</button>
       </form>
       <div class="form-success" id="formSuccess">
         Message received — I'll get back to you within 7 working days.<br>
@@ -317,7 +318,22 @@ html,body{min-height:100vh;background:var(--bg);color:var(--text);font-family:'D
 </div>
 
 <script>
-const tabIds = ['home','about','socials','contact'];
+function onTurnstileSuccess(){
+  const btn = document.getElementById('submitBtn');
+  btn.disabled = false;
+  btn.style.opacity = '1';
+  btn.style.cursor = 'pointer';
+  btn.textContent = 'Send message ↗';
+}
+function onTurnstileExpired(){
+  const btn = document.getElementById('submitBtn');
+  btn.disabled = true;
+  btn.style.opacity = '.4';
+  btn.style.cursor = 'not-allowed';
+  btn.textContent = 'Complete verification ↗';
+}
+
+
 
 function switchTab(i){
   tabIds.forEach((id,j)=>{
@@ -377,8 +393,10 @@ document.getElementById('contactForm').addEventListener('submit', async function
         success.style.display='none';
         form.reset();
         form.style.display='flex';
-        btn.textContent='Send message ↗';
-        btn.disabled=false;
+        btn.textContent='Complete verification ↗';
+        btn.disabled=true;
+        btn.style.opacity='.4';
+        btn.style.cursor='not-allowed';
         if(typeof turnstile !== 'undefined') turnstile.reset();
         countdown.textContent='Form resets in 10s';
       }, 10000);
