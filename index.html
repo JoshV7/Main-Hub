@@ -159,6 +159,7 @@ html,body{min-height:100vh;background:var(--bg);color:var(--text);font-family:'D
 .mobile-nl:hover,.mobile-nl.active{color:var(--accent);border-bottom-color:var(--accent)}
 .mobile-toggle-row{display:flex;align-items:center;gap:12px;margin-top:16px}
 .mobile-toggle-label{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--muted)}
+.mobile-theme-toggle{opacity:1!important;display:inline-flex!important}
 
 /* ── CONTENT ── */
 .content{padding:48px;flex:1}
@@ -310,7 +311,7 @@ html,body{min-height:100vh;background:var(--bg);color:var(--text);font-family:'D
     <span class="mobile-nl" onclick="switchTab(3);toggleMenu()">Contact</span>
     <div class="mobile-toggle-row">
       <span class="mobile-toggle-label">Theme</span>
-      <button class="theme-toggle" style="opacity:1" onclick="toggleTheme()" aria-label="Toggle theme"></button>
+      <button class="theme-toggle mobile-theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme"></button>
     </div>
   </div>
 
@@ -454,14 +455,15 @@ function toggleMenu(){
   const isOpen = menu.classList.contains('open');
   if(isOpen){
     menu.style.opacity='0';
-    setTimeout(()=>{ menu.style.display='none'; menu.classList.remove('open') }, 250);
+    burger.classList.remove('open');
+    setTimeout(()=>{ menu.style.display='none'; menu.classList.remove('open'); }, 250);
   } else {
     menu.style.display='flex';
     void menu.offsetWidth;
+    menu.style.opacity='1';
     menu.classList.add('open');
     burger.classList.add('open');
   }
-  burger.classList.toggle('open', !isOpen);
 }
 
 // ── TABS ──
