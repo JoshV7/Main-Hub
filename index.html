@@ -4,7 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Van Der Merwe</title>
-<!-- Add your favicon here: <link rel="icon" href="/favicon.ico"> -->
+<link rel="icon" type="image/x-icon" href="/favicon.ico">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=DM+Serif+Display&display=swap" rel="stylesheet">
@@ -303,7 +306,8 @@ html,body{min-height:100vh;background:var(--bg);color:var(--text);font-family:'D
         <button class="submit-btn" type="submit">Send message ↗</button>
       </form>
       <div class="form-success" id="formSuccess">
-        Message sent — I'll get back to you soon.
+        Message received — I'll get back to you within 7 working days.<br>
+        <span id="formCountdown" style="font-size:9px;opacity:.6;margin-top:6px;display:block;letter-spacing:1px">Form resets in 10s</span>
       </div>
     </div>
 
@@ -362,8 +366,26 @@ document.getElementById('contactForm').addEventListener('submit', async function
     const res = await fetch(this.action,{method:'POST',body:JSON.stringify(data),headers:{'Content-Type':'application/json','Accept':'application/json'}});
     const json = await res.json();
     if(json.success){
-      this.style.display='none';
-      document.getElementById('formSuccess').style.display='block';
+      const form = this;
+      const success = document.getElementById('formSuccess');
+      const countdown = document.getElementById('formCountdown');
+      form.style.display='none';
+      success.style.display='block';
+      let secs = 10;
+      const interval = setInterval(()=>{
+        secs--;
+        countdown.textContent = 'Form resets in ' + secs + 's';
+        if(secs<=0) clearInterval(interval);
+      }, 1000);
+      setTimeout(()=>{
+        success.style.display='none';
+        form.reset();
+        form.style.display='flex';
+        btn.textContent='Send message ↗';
+        btn.disabled=false;
+        if(typeof turnstile !== 'undefined') turnstile.reset();
+        countdown.textContent='Form resets in 10s';
+      }, 10000);
     } else {
       btn.textContent = 'Error — try again';
       btn.disabled = false;
