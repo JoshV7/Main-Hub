@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Van Der Merwe</title>
+<!-- Add your favicon here: <link rel="icon" href="/favicon.ico"> -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=DM+Serif+Display&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#181f1c;
+  --nav:#181f1c;
+  --border:#2e3d34;
+  --surface:#1e2a25;
+  --surface-hover:#243020;
+  --surface-border:#334d3e;
+  --shadow:0 2px 12px rgba(0,0,0,.45);
+  --shadow-hover:0 8px 28px rgba(76,175,125,.1);
+  --text:#d8ece2;
+  --muted:#6b9478;
+  --dim:#3a5044;
+  --accent:#4caf7d;
+  --accent-bg:rgba(76,175,125,.12);
+  --accent-border:rgba(76,175,125,.3);
+  --auth-bg:rgba(76,175,125,.07);
+  --auth-border:rgba(76,175,125,.2);
+  --dev-bg:rgba(216,236,226,.05);
+  --dev-text:#4d7060;
+  --dev-border:#2e3d34;
+  --footer:#3a5a48;
+}
+html,body{min-height:100vh;background:var(--bg);color:var(--text);font-family:'DM Mono',monospace;-webkit-font-smoothing:antialiased}
+
+/* ── LAYOUT ── */
+.site{min-height:100vh;display:flex;flex-direction:column;max-width:900px;margin:0 auto}
+
+/* ── TOP NAV ── */
+.topnav{
+  padding:20px 36px;
+  display:flex;align-items:center;justify-content:space-between;
+  border-bottom:0.5px solid var(--border);
+  background:var(--nav);
+  box-shadow:0 1px 0 var(--border),0 4px 20px rgba(0,0,0,.3);
+  position:sticky;top:0;z-index:10;
+}
+.wordmark{font-family:'DM Serif Display',Georgia,serif;font-size:24px;color:var(--text);letter-spacing:-0.3px;opacity:0;transform:translateY(-8px)}
+.wordmark span{color:var(--accent)}
+.wordmark.go{animation:slideDown .5s cubic-bezier(.22,1,.36,1) forwards}
+.nav-links{display:flex;gap:24px}
+.nl{font-size:9px;letter-spacing:2.5px;text-transform:uppercase;color:var(--muted);cursor:pointer;padding-bottom:3px;border-bottom:1px solid transparent;transition:color .2s,border-color .2s;opacity:0}
+.nl:hover{color:var(--text)}
+.nl.active{color:var(--accent);border-bottom-color:var(--accent)}
+.nl.go{animation:fadeIn .4s ease forwards}
+.nl.go:nth-child(1){animation-delay:.12s}
+.nl.go:nth-child(2){animation-delay:.19s}
+.nl.go:nth-child(3){animation-delay:.26s}
+.nl.go:nth-child(4){animation-delay:.33s}
+
+/* ── PAGE TABS ── */
+.pagetabs{
+  display:flex;
+  padding:0 36px;
+  border-bottom:0.5px solid var(--border);
+  background:var(--nav);
+}
+.ptb{
+  font-size:9px;letter-spacing:1.5px;text-transform:uppercase;
+  padding:13px 18px;cursor:pointer;
+  color:var(--muted);
+  border-bottom:2px solid transparent;
+  transition:color .2s,border-color .2s;
+  opacity:0;
+}
+.ptb:hover{color:var(--text)}
+.ptb.active{color:var(--accent);border-bottom-color:var(--accent)}
+.ptb.go{animation:fadeIn .4s ease forwards}
+.ptb.go:nth-child(1){animation-delay:.28s}
+.ptb.go:nth-child(2){animation-delay:.35s}
+.ptb.go:nth-child(3){animation-delay:.42s}
+.ptb.go:nth-child(4){animation-delay:.49s}
+
+/* ── CONTENT ── */
+.content{padding:36px;flex:1}
+.tabpanel{display:none;opacity:0}
+.tabpanel.active{display:block}
+.tabpanel.go{animation:fadeUp .4s ease forwards}
+
+/* ── HOME ── */
+.section-label{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--dim);margin-bottom:18px;opacity:0}
+.section-label.go{animation:fadeIn .4s ease .38s forwards}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.card{
+  border-radius:11px;padding:20px 18px;
+  border:0.5px solid var(--surface-border);
+  background:var(--surface);
+  box-shadow:var(--shadow);
+  position:relative;min-height:128px;
+  display:flex;flex-direction:column;gap:5px;
+  text-decoration:none;
+  opacity:0;transform:translateY(20px);
+  transition:transform .22s cubic-bezier(.22,1,.36,1),box-shadow .22s,border-color .2s,background .2s;
+}
+.card.go{animation:cardUp .55s cubic-bezier(.22,1,.36,1) forwards}
+.card.go:nth-child(1){animation-delay:.42s}
+.card.go:nth-child(2){animation-delay:.52s}
+.card.go:nth-child(3){animation-delay:.62s}
+.card:not(.dim):hover{transform:translateY(-3px);box-shadow:var(--shadow-hover);border-color:var(--accent);background:var(--surface-hover)}
+.card.dim{cursor:default;opacity:0!important}
+.card.dim.go{animation:cardDim .55s cubic-bezier(.22,1,.36,1) .62s forwards}
+.card-cat{font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--accent)}
+.card-title{font-family:'DM Serif Display',Georgia,serif;font-size:18px;color:var(--text);letter-spacing:-0.2px}
+.card-desc{font-size:10px;line-height:1.7;color:var(--muted);margin-top:2px}
+.badges{display:flex;gap:5px;position:absolute;top:14px;right:14px}
+.badge{font-size:7px;letter-spacing:.5px;padding:2px 7px;border-radius:10px;text-transform:uppercase}
+.b-live{background:var(--accent-bg);color:var(--accent);border:0.5px solid var(--accent-border)}
+.b-dev{background:var(--dev-bg);color:var(--dev-text);border:0.5px solid var(--dev-border)}
+.b-auth{background:var(--auth-bg);color:var(--accent);border:0.5px solid var(--auth-border)}
+.arrow{position:absolute;bottom:14px;right:14px;font-size:14px;color:var(--accent);opacity:0;transition:opacity .18s,transform .18s}
+.card:hover .arrow{opacity:1;transform:translate(2px,-2px)}
+
+/* ── ABOUT ── */
+.tab-heading{
+  font-size:10px;letter-spacing:2px;text-transform:uppercase;
+  color:var(--muted);margin-bottom:20px;padding-bottom:14px;
+  border-bottom:0.5px solid var(--border);
+}
+
+/* ── SOCIALS ── */
+.social-list{display:flex;flex-direction:column;gap:8px;max-width:400px}
+.social-row{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:14px 18px;border-radius:9px;
+  border:0.5px solid var(--surface-border);
+  background:var(--surface);
+  box-shadow:var(--shadow);
+  cursor:pointer;
+  transition:border-color .2s,background .2s,box-shadow .2s;
+  text-decoration:none;
+}
+.social-row:hover{border-color:var(--accent);background:var(--surface-hover);box-shadow:var(--shadow-hover)}
+.social-platform{font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--accent)}
+.social-handle{font-size:11px;color:var(--muted)}
+.social-arrow{font-size:12px;color:var(--dim);transition:color .2s,transform .2s}
+.social-row:hover .social-arrow{color:var(--accent);transform:translate(2px,-2px)}
+
+/* ── CONTACT FORM ── */
+.contact-intro{font-size:11px;line-height:1.9;color:var(--muted);margin-bottom:24px;max-width:440px}
+.cform{display:flex;flex-direction:column;gap:14px;max-width:480px}
+.field-label{font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:6px}
+.field-input, .field-textarea{
+  width:100%;
+  background:var(--surface);
+  border:0.5px solid var(--surface-border);
+  border-radius:8px;
+  padding:12px 14px;
+  font-family:'DM Mono',monospace;
+  font-size:11px;
+  color:var(--text);
+  outline:none;
+  transition:border-color .2s,box-shadow .2s;
+  box-shadow:var(--shadow);
+}
+.field-input:focus, .field-textarea:focus{
+  border-color:var(--accent);
+  box-shadow:0 0 0 3px rgba(76,175,125,.1);
+}
+.field-input::placeholder, .field-textarea::placeholder{color:var(--dim)}
+.field-textarea{resize:vertical;min-height:120px;line-height:1.7}
+.submit-btn{
+  align-self:flex-start;
+  padding:12px 24px;
+  border-radius:8px;
+  border:0.5px solid var(--accent-border);
+  background:var(--accent-bg);
+  color:var(--accent);
+  font-family:'DM Mono',monospace;
+  font-size:10px;letter-spacing:1.5px;text-transform:uppercase;
+  cursor:pointer;
+  transition:background .2s,border-color .2s,box-shadow .2s,transform .15s;
+}
+.submit-btn:hover{background:rgba(76,175,125,.2);border-color:var(--accent);box-shadow:0 4px 16px rgba(76,175,125,.15);transform:translateY(-1px)}
+.submit-btn:active{transform:translateY(0)}
+.form-success{
+  display:none;
+  padding:14px 18px;border-radius:9px;
+  border:0.5px solid var(--accent-border);
+  background:var(--accent-bg);
+  color:var(--accent);
+  font-size:11px;line-height:1.7;
+}
+
+/* ── FOOTER ── */
+.footer{
+  padding:18px 36px;
+  font-size:9px;letter-spacing:2px;text-align:center;
+  border-top:0.5px solid var(--border);
+  color:var(--footer);
+  opacity:0;
+}
+.footer.go{animation:fadeIn .5s ease .72s forwards}
+
+/* ── ANIMATIONS ── */
+@keyframes slideDown{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+@keyframes cardUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+@keyframes cardDim{from{opacity:0;transform:translateY(20px)}to{opacity:.28;transform:translateY(0)}}
+
+/* ── RESPONSIVE ── */
+@media(max-width:640px){
+  .topnav,.pagetabs,.content,.footer{padding-left:20px;padding-right:20px}
+  .grid{grid-template-columns:1fr}
+  .wordmark{font-size:20px}
+  .nav-links{gap:14px}
+}
+</style>
+</head>
+<body>
+<div class="site">
+
+  <!-- TOP NAV -->
+  <nav class="topnav">
+    <div class="wordmark" id="wm">Van Der <span>Merwe</span></div>
+    <div class="nav-links" id="nls">
+      <span class="nl active" onclick="switchTab(0)">Home</span>
+      <span class="nl" onclick="switchTab(1)">About</span>
+      <span class="nl" onclick="switchTab(2)">Socials</span>
+      <span class="nl" onclick="switchTab(3)">Contact</span>
+    </div>
+  </nav>
+
+  <!-- PAGE TABS -->
+  <div class="pagetabs" id="ptbs">
+    <span class="ptb active" onclick="switchTab(0)">Home</span>
+    <span class="ptb" onclick="switchTab(1)">About</span>
+    <span class="ptb" onclick="switchTab(2)">Socials</span>
+    <span class="ptb" onclick="switchTab(3)">Contact</span>
+  </div>
+
+  <!-- CONTENT -->
+  <div class="content">
+
+    <!-- HOME -->
+    <div class="tabpanel active" id="tab-home">
+      <div class="section-label" id="sec-label">Projects</div>
+      <div class="grid">
+        <a class="card" href="https://gymtracking.co.uk" target="_blank" rel="noopener">
+          <div class="card-cat">Fitness</div>
+          <div class="badges"><span class="badge b-live">Live</span></div>
+          <div class="card-title">Gym Tracker</div>
+          <div class="card-desc">Workout logging and progress tracking over time.</div>
+          <div class="arrow">↗</div>
+        </a>
+        <a class="card" href="/study">
+          <div class="card-cat">Medicine</div>
+          <div class="badges"><span class="badge b-live">Live</span><span class="badge b-auth">⬡ Auth</span></div>
+          <div class="card-title">Study App</div>
+          <div class="card-desc">MBChB Year 1 mock tests and anatomy revision.</div>
+          <div class="arrow">↗</div>
+        </a>
+        <a class="card dim" href="/cars">
+          <div class="card-cat">Motoring</div>
+          <div class="badges"><span class="badge b-dev">In dev</span><span class="badge b-auth">⬡ Auth</span></div>
+          <div class="card-title">Cars</div>
+          <div class="card-desc">Used car finder and evaluation tool.</div>
+        </a>
+      </div>
+    </div>
+
+    <!-- ABOUT -->
+    <div class="tabpanel" id="tab-about">
+      <div class="tab-heading">About</div>
+    </div>
+
+    <!-- SOCIALS -->
+    <div class="tabpanel" id="tab-socials">
+      <div class="tab-heading">Socials</div>
+      <div class="social-list">
+        <a class="social-row" href="https://github.com/JoshV7" target="_blank" rel="noopener">
+          <div class="social-platform">GitHub</div>
+          <div class="social-handle">JoshV7</div>
+          <div class="social-arrow">↗</div>
+        </a>
+        <a class="social-row" href="https://linkedin.com" target="_blank" rel="noopener">
+          <div class="social-platform">LinkedIn</div>
+          <div class="social-handle">Joshua Van Der Merwe</div>
+          <div class="social-arrow">↗</div>
+        </a>
+        <a class="social-row" href="https://instagram.com" target="_blank" rel="noopener">
+          <div class="social-platform">Instagram</div>
+          <div class="social-handle">@joshvandermerwe</div>
+          <div class="social-arrow">↗</div>
+        </a>
+        <a class="social-row" href="https://x.com" target="_blank" rel="noopener">
+          <div class="social-platform">X / Twitter</div>
+          <div class="social-handle">@joshvdm</div>
+          <div class="social-arrow">↗</div>
+        </a>
+      </div>
+    </div>
+
+    <!-- CONTACT -->
+    <div class="tabpanel" id="tab-contact">
+      <div class="tab-heading">Contact</div>
+      <div class="contact-intro">Get in touch for collaborations, questions, or anything else.</div>
+
+      <!-- 
+        FORMSPREE SETUP:
+        1. Go to https://formspree.io and create a free account
+        2. Create a new form pointing to joshua@vandermerwe.org.uk
+        3. Replace YOUR_FORMSPREE_ID below with your form ID (e.g. xpwzgkqv)
+      -->
+      <form class="cform" id="contactForm" action="https://api.web3forms.com/submit" method="POST">
+        <div>
+          <label class="field-label" for="name">Name</label>
+          <input class="field-input" id="name" type="text" name="name" placeholder="Your name" required>
+        </div>
+        <div>
+          <label class="field-label" for="email">Email</label>
+          <input class="field-input" id="email" type="email" name="email" placeholder="your@email.com" required>
+        </div>
+        <div>
+          <label class="field-label" for="message">Message</label>
+          <textarea class="field-textarea" id="message" name="message" placeholder="What's on your mind?" required></textarea>
+        </div>
+        <input type="hidden" name="access_key" value="49e453dc-a179-4fbd-8aa9-2c3b995b44bf">
+        <input type="hidden" name="subject" value="New message from vandermerwe.org.uk">
+        <input type="checkbox" name="botcheck" style="display:none">
+        <button class="submit-btn" type="submit">Send message ↗</button>
+      </form>
+      <div class="form-success" id="formSuccess">
+        Message sent — I'll get back to you soon.
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer" id="ft">© 2026 Van Der Merwe</div>
+</div>
+
+<script>
+const tabIds = ['home','about','socials','contact'];
+
+function switchTab(i){
+  tabIds.forEach((id,j)=>{
+    const panel = document.getElementById('tab-'+id);
+    const nl = document.querySelectorAll('.nl')[j];
+    const ptb = document.querySelectorAll('.ptb')[j];
+    const isActive = i===j;
+    panel.classList.toggle('active',isActive);
+    panel.classList.remove('go');
+    if(isActive){void panel.offsetWidth;panel.classList.add('go')}
+    nl.classList.toggle('active',isActive);
+    ptb.classList.toggle('active',isActive);
+  });
+  if(i===0) animateCards();
+}
+
+function animateCards(){
+  const cards = document.querySelectorAll('.card');
+  const sl = document.getElementById('sec-label');
+  [sl,...cards].forEach(el=>{el.classList.remove('go');void el.offsetWidth;el.classList.add('go')});
+}
+
+function animateIn(){
+  const wm = document.getElementById('wm');
+  const nls = document.querySelectorAll('.nl');
+  const ptbs = document.querySelectorAll('.ptb');
+  const ft = document.getElementById('ft');
+  [wm,...nls,...ptbs,ft].forEach(el=>{el.classList.remove('go');void el.offsetWidth});
+  setTimeout(()=>wm.classList.add('go'),10);
+  nls.forEach(el=>setTimeout(()=>el.classList.add('go'),10));
+  ptbs.forEach(el=>setTimeout(()=>el.classList.add('go'),10));
+  setTimeout(()=>ft.classList.add('go'),10);
+  document.getElementById('tab-home').classList.add('go');
+  animateCards();
+}
+
+// Formspree AJAX submission
+document.getElementById('contactForm').addEventListener('submit', async function(e){
+  e.preventDefault();
+  const btn = this.querySelector('.submit-btn');
+  btn.textContent = 'Sending...';
+  btn.disabled = true;
+  try{
+    const data = Object.fromEntries(new FormData(this));
+    const res = await fetch(this.action,{method:'POST',body:JSON.stringify(data),headers:{'Content-Type':'application/json','Accept':'application/json'}});
+    const json = await res.json();
+    if(json.success){
+      this.style.display='none';
+      document.getElementById('formSuccess').style.display='block';
+    } else {
+      btn.textContent = 'Error — try again';
+      btn.disabled = false;
+    }
+  } catch(err){
+    btn.textContent = 'Error — try again';
+    btn.disabled = false;
+  }
+});
+
+animateIn();
+</script>
+</body>
+</html>
