@@ -34,7 +34,6 @@
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 
-/* ── THEME VARIABLES ── */
 :root{
   --bg:#181f1c;
   --nav:#181f1c;
@@ -86,10 +85,9 @@
 
 html,body{min-height:100vh;background:var(--bg);color:var(--text);font-family:'DM Mono',monospace;-webkit-font-smoothing:antialiased;transition:background .3s,color .3s}
 
-/* ── LAYOUT ── */
 .site{min-height:100vh;display:flex;flex-direction:column;max-width:1100px;margin:0 auto}
 
-/* ── TOP NAV ── */
+/* NAV */
 .topnav{
   padding:20px 48px;
   display:flex;align-items:center;justify-content:space-between;
@@ -105,7 +103,6 @@ html,body{min-height:100vh;background:var(--bg);color:var(--text);font-family:'D
 .wordmark-name span{color:var(--accent)}
 .wordmark.go{animation:slideDown .5s cubic-bezier(.22,1,.36,1) forwards}
 
-/* desktop nav */
 .nav-right{display:flex;align-items:center;gap:32px}
 .nav-links{display:flex;gap:28px;align-items:center;margin-top:20px}
 .nl{font-size:9px;letter-spacing:2.5px;text-transform:uppercase;color:var(--muted);cursor:pointer;padding-bottom:3px;border-bottom:1px solid transparent;transition:color .2s,border-color .2s;opacity:0;white-space:nowrap;line-height:22px}
@@ -117,7 +114,6 @@ html,body{min-height:100vh;background:var(--bg);color:var(--text);font-family:'D
 .nl.go:nth-child(3){animation-delay:.26s}
 .nl.go:nth-child(4){animation-delay:.33s}
 
-/* toggle */
 .theme-toggle{
   width:40px;height:22px;border-radius:11px;
   background:var(--toggle-bg);
@@ -138,7 +134,6 @@ html,body{min-height:100vh;background:var(--bg);color:var(--text);font-family:'D
 }
 [data-theme="light"] .theme-toggle::after{transform:translateX(18px)}
 
-/* hamburger */
 .hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px;opacity:0}
 .hamburger.go{animation:fadeIn .4s ease .4s forwards}
 .hamburger span{display:block;width:22px;height:1.5px;background:var(--muted);transition:transform .3s,opacity .3s,background .3s}
@@ -146,7 +141,6 @@ html,body{min-height:100vh;background:var(--bg);color:var(--text);font-family:'D
 .hamburger.open span:nth-child(2){opacity:0}
 .hamburger.open span:nth-child(3){transform:translateY(-6.5px) rotate(-45deg)}
 
-/* mobile menu */
 .mobile-menu{
   display:none;position:fixed;
   top:0;left:0;right:0;bottom:0;
@@ -162,16 +156,33 @@ html,body{min-height:100vh;background:var(--bg);color:var(--text);font-family:'D
 .mobile-toggle-label{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--muted)}
 .mobile-theme-toggle{opacity:1!important;display:inline-flex!important}
 
-/* ── CONTENT ── */
+/* CONTENT */
 .content{padding:48px;flex:1}
 .tabpanel{display:none;opacity:0}
 .tabpanel.active{display:block}
 .tabpanel.go{animation:fadeUp .4s ease forwards}
 
-/* ── HOME ── */
+/* HOME */
 .section-label{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--dim);margin-bottom:10px;opacity:0;padding-left:2px}
 .section-label.go{animation:fadeIn .4s ease .38s forwards}
 .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+
+/* skeleton */
+.card-skeleton{
+  border-radius:12px;padding:28px 24px;
+  border:0.5px solid var(--surface-border);
+  background:var(--surface);
+  min-height:160px;
+  opacity:0.4;
+  animation:pulse 1.4s ease-in-out infinite;
+}
+@keyframes pulse{0%,100%{opacity:0.4}50%{opacity:0.2}}
+.skel-line{height:8px;border-radius:4px;background:var(--dim);margin-bottom:10px}
+.skel-line.short{width:40%}
+.skel-line.med{width:60%}
+.skel-line.long{width:85%}
+.skel-line.title{height:20px;width:70%;margin-bottom:12px}
+
 .card{
   border-radius:12px;padding:28px 24px;
   border:0.5px solid var(--surface-border);
@@ -184,18 +195,13 @@ html,body{min-height:100vh;background:var(--bg);color:var(--text);font-family:'D
   transition:transform .22s cubic-bezier(.22,1,.36,1),box-shadow .22s,border-color .2s,background .2s;
 }
 .card.go{animation:cardUp .55s cubic-bezier(.22,1,.36,1) forwards}
-.card.go:nth-child(1){animation-delay:.42s}
-.card.go:nth-child(2){animation-delay:.52s}
-.card.go:nth-child(3){animation-delay:.62s}
 .card:hover{transform:translateY(-3px);box-shadow:var(--shadow-hover);border-color:var(--accent);background:var(--surface-hover)}
-.card.dim{cursor:pointer;opacity:0}
-.card.dim.go{animation:cardUp .55s cubic-bezier(.22,1,.36,1) .62s forwards}
 .card-cat{font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--accent)}
 .card-title{font-family:'DM Serif Display',Georgia,serif;font-size:22px;color:var(--text);letter-spacing:-0.2px;margin-top:2px}
 .card-desc{font-size:11px;line-height:1.7;color:var(--muted);margin-top:4px;flex:1}
 .card-footer{display:flex;align-items:center;justify-content:space-between;margin-top:12px}
 .card-updated{font-size:9px;letter-spacing:1px;color:var(--dim)}
-.badges{display:flex;gap:5px}
+.badges{display:flex;gap:5px;flex-wrap:wrap}
 .badge{font-size:7px;letter-spacing:.5px;padding:2px 7px;border-radius:10px;text-transform:uppercase}
 .b-live{background:var(--accent-bg);color:var(--accent);border:0.5px solid var(--accent-border)}
 .b-dev{background:var(--dev-bg);color:var(--dev-text);border:0.5px solid var(--dev-border)}
@@ -203,10 +209,19 @@ html,body{min-height:100vh;background:var(--bg);color:var(--text);font-family:'D
 .arrow{font-size:16px;color:var(--accent);opacity:0;transition:opacity .18s,transform .18s}
 .card:hover .arrow{opacity:1;transform:translate(2px,-2px)}
 
-/* ── ABOUT ── */
+.empty-state{
+  grid-column:1/-1;
+  padding:48px 24px;
+  text-align:center;
+  color:var(--dim);
+  font-size:11px;
+  letter-spacing:1px;
+}
+
+/* ABOUT */
 .tab-heading{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:20px;padding-bottom:14px;border-bottom:0.5px solid var(--border)}
 
-/* ── SOCIALS ── */
+/* SOCIALS */
 .social-list{display:flex;flex-direction:column;gap:10px;max-width:480px}
 .social-row{
   display:flex;align-items:center;justify-content:space-between;
@@ -224,7 +239,7 @@ html,body{min-height:100vh;background:var(--bg);color:var(--text);font-family:'D
 .social-arrow{font-size:13px;color:var(--dim);transition:color .2s,transform .2s}
 .social-row:hover .social-arrow{color:var(--accent);transform:translate(2px,-2px)}
 
-/* ── CONTACT FORM ── */
+/* CONTACT */
 .contact-intro{font-size:12px;line-height:1.9;color:var(--muted);margin-bottom:28px;max-width:480px}
 .cform{display:flex;flex-direction:column;gap:16px;max-width:520px}
 .field-label{font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:8px}
@@ -257,7 +272,7 @@ html,body{min-height:100vh;background:var(--bg);color:var(--text);font-family:'D
   font-size:12px;line-height:1.8;max-width:520px;
 }
 
-/* ── FOOTER ── */
+/* FOOTER */
 .footer{
   padding:20px 48px;font-size:9px;letter-spacing:2px;
   text-align:center;border-top:0.5px solid var(--border);
@@ -265,13 +280,13 @@ html,body{min-height:100vh;background:var(--bg);color:var(--text);font-family:'D
 }
 .footer.go{animation:fadeIn .5s ease .72s forwards}
 
-/* ── ANIMATIONS ── */
+/* ANIMATIONS */
 @keyframes slideDown{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:translateY(0)}}
 @keyframes fadeIn{from{opacity:0}to{opacity:1}}
 @keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
 @keyframes cardUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
 
-/* ── RESPONSIVE ── */
+/* RESPONSIVE */
 @media(max-width:768px){
   .topnav,.content,.footer{padding-left:24px;padding-right:24px}
   .nav-links,.theme-toggle{display:none}
@@ -287,7 +302,6 @@ html,body{min-height:100vh;background:var(--bg);color:var(--text);font-family:'D
 <body>
 <div class="site">
 
-  <!-- TOP NAV -->
   <nav class="topnav">
     <div class="wordmark" id="wm"><span class="wordmark-first">Joshua</span><span class="wordmark-name">Van Der <span>Merwe</span></span></div>
     <div class="nav-right">
@@ -304,7 +318,6 @@ html,body{min-height:100vh;background:var(--bg);color:var(--text);font-family:'D
     </div>
   </nav>
 
-  <!-- MOBILE MENU -->
   <div class="mobile-menu" id="mobileMenu">
     <span class="mobile-nl active" onclick="switchTab(0);toggleMenu()">Home</span>
     <span class="mobile-nl" onclick="switchTab(1);toggleMenu()">About</span>
@@ -316,47 +329,16 @@ html,body{min-height:100vh;background:var(--bg);color:var(--text);font-family:'D
     </div>
   </div>
 
-  <!-- CONTENT -->
   <div class="content">
 
     <!-- HOME -->
     <div class="tabpanel active" id="tab-home">
       <div class="section-label" id="sec-label">Projects</div>
-      <div class="grid">
-
-        <a class="card" href="https://gymtracking.co.uk">
-          <div class="card-cat">Fitness</div>
-          <div class="card-title">Gym Tracker</div>
-          <div class="card-desc">Workout logging and progress tracking over time.</div>
-          <div class="card-footer">
-            <div class="badges"><span class="badge b-live">Live</span></div>
-            <div class="card-updated">04/2026</div>
-          </div>
-          <div class="arrow">↗</div>
-        </a>
-
-        <a class="card" href="/study">
-          <div class="card-cat">Medicine</div>
-          <div class="card-title">Study App</div>
-          <div class="card-desc">MBChB Year 1 mock tests and anatomy revision.</div>
-          <div class="card-footer">
-            <div class="badges"><span class="badge b-live">Live</span><span class="badge b-auth">⬡ Auth</span></div>
-            <div class="card-updated">05/2026</div>
-          </div>
-          <div class="arrow">↗</div>
-        </a>
-
-        <a class="card dim" href="/cars">
-          <div class="card-cat">Motoring</div>
-          <div class="card-title">Cars</div>
-          <div class="card-desc">Used car finder and evaluation tool.</div>
-          <div class="card-footer">
-            <div class="badges"><span class="badge b-live">Live</span><span class="badge b-auth">⬡ Auth</span></div>
-            <div class="card-updated">05/2026</div>
-          </div>
-          <div class="arrow">↗</div>
-        </a>
-
+      <div class="grid" id="projects-grid">
+        <!-- skeletons -->
+        <div class="card-skeleton"><div class="skel-line short"></div><div class="skel-line title"></div><div class="skel-line long"></div><div class="skel-line med"></div></div>
+        <div class="card-skeleton"><div class="skel-line short"></div><div class="skel-line title"></div><div class="skel-line long"></div><div class="skel-line med"></div></div>
+        <div class="card-skeleton"><div class="skel-line short"></div><div class="skel-line title"></div><div class="skel-line long"></div><div class="skel-line med"></div></div>
       </div>
     </div>
 
@@ -422,24 +404,19 @@ html,body{min-height:100vh;background:var(--bg);color:var(--text);font-family:'D
 </div>
 
 <script>
-// ── POSITIONING HELPER ──
-console.log('%c Van Der Merwe — Positioning Guide ', 'background:#1e2a25;color:#4caf7d;font-size:13px;padding:4px 8px;border-radius:4px');
-console.log('%c Projects label ', 'color:#4caf7d;font-weight:bold', '→ change margin-bottom on .section-label (currently 10px) and padding-left (currently 2px)');
-console.log('%c Dark/light toggle ', 'color:#4caf7d;font-weight:bold', '→ change gap on .nav-links (currently 28px between items) or add margin-left to .theme-toggle');
-console.log('%c Tell Claude: ', 'color:#8ab89e', '"move Projects X px left/right/up/down" or "move toggle X px left/right"');
+// ── CONFIG ──
+const SUPABASE_URL = 'https://glgiqzadjltunuwrdfus.supabase.co';
+const SUPABASE_ANON = 'sb_publishable_N49gMN9viT9QVI8OlRadZw_M2yywJ1J';
 
-
+// ── THEME ──
 function getSystemTheme(){ return window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark' }
 function applyTheme(t){ document.documentElement.setAttribute('data-theme', t); localStorage.setItem('vdm-theme', t) }
-
 const savedTheme = localStorage.getItem('vdm-theme') || getSystemTheme();
 applyTheme(savedTheme);
-
 function toggleTheme(){
   const current = document.documentElement.getAttribute('data-theme');
   applyTheme(current === 'dark' ? 'light' : 'dark');
 }
-
 window.matchMedia('(prefers-color-scheme: light)').addEventListener('change', e => {
   if(!localStorage.getItem('vdm-theme')) applyTheme(e.matches ? 'light' : 'dark');
 });
@@ -464,7 +441,6 @@ function toggleMenu(){
 
 // ── TABS ──
 const tabIds = ['home','about','socials','contact'];
-
 function switchTab(i){
   tabIds.forEach((id,j)=>{
     const panel = document.getElementById('tab-'+id);
@@ -477,26 +453,64 @@ function switchTab(i){
     nl.classList.toggle('active', isActive);
     mnl.classList.toggle('active', isActive);
   });
-  if(i===0) animateCards();
+}
+
+// ── BADGE HELPERS ──
+function badgeHTML(badge) {
+  const map = {
+    live: '<span class="badge b-live">Live</span>',
+    dev:  '<span class="badge b-dev">Dev</span>',
+    auth: '<span class="badge b-auth">⬡ Auth</span>',
+  };
+  return (badge || []).map(b => map[b] || `<span class="badge b-dev">${b}</span>`).join('');
+}
+
+// ── FETCH & RENDER PROJECTS ──
+async function loadProjects() {
+  const grid = document.getElementById('projects-grid');
+  try {
+    const res = await fetch(
+      `${SUPABASE_URL}/rest/v1/projects?select=*&order=sort_order.asc`,
+      { headers: { 'apikey': SUPABASE_ANON, 'Authorization': 'Bearer ' + SUPABASE_ANON } }
+    );
+    if (!res.ok) throw new Error('fetch failed');
+    const projects = await res.json();
+
+    if (!projects.length) {
+      grid.innerHTML = '<div class="empty-state">No projects yet.</div>';
+      return;
+    }
+
+    grid.innerHTML = projects.map((p, i) => `
+      <a class="card go" href="${p.url || '#'}" style="animation-delay:${0.42 + i * 0.1}s">
+        <div class="card-cat">${p.category || ''}</div>
+        <div class="card-title">${p.name}</div>
+        <div class="card-desc">${p.description || ''}</div>
+        <div class="card-footer">
+          <div class="badges">${badgeHTML(p.badge)}</div>
+          <div class="card-updated">${p.updated || ''}</div>
+        </div>
+        <div class="arrow">↗</div>
+      </a>
+    `).join('');
+
+  } catch(e) {
+    grid.innerHTML = '<div class="empty-state">Could not load projects.</div>';
+  }
 }
 
 // ── ANIMATIONS ──
-function animateCards(){
-  const cards = document.querySelectorAll('.card');
-  const sl = document.getElementById('sec-label');
-  [sl,...cards].forEach(el=>{ el.classList.remove('go'); void el.offsetWidth; el.classList.add('go') });
-}
-
 function animateIn(){
   const wm = document.getElementById('wm');
   const nls = document.querySelectorAll('.nl');
   const ft = document.getElementById('ft');
+  const sl = document.getElementById('sec-label');
   [wm,...nls,ft].forEach(el=>{ el.classList.remove('go'); void el.offsetWidth });
   setTimeout(()=>wm.classList.add('go'), 10);
   nls.forEach(el=>setTimeout(()=>el.classList.add('go'), 10));
   setTimeout(()=>ft.classList.add('go'), 10);
   document.getElementById('tab-home').classList.add('go');
-  animateCards();
+  setTimeout(()=>sl.classList.add('go'), 10);
 }
 
 // ── TURNSTILE ──
@@ -539,7 +553,9 @@ document.getElementById('contactForm').addEventListener('submit', async function
   }
 });
 
+// ── INIT ──
 animateIn();
+loadProjects();
 </script>
 </body>
 </html>
